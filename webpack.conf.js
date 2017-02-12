@@ -11,20 +11,38 @@ module.exports = {
       'parchment': path.resolve(__dirname, 'node_modules/parchment/src/parchment.ts'),
       'quill$': path.resolve(__dirname, 'node_modules/quill/quill.js'),
     },
-    extensions: ['', '.js', '.ts', '.svg']
+    extensions: ['.js', '.ts', '.svg']
   },
   module: {
-    loaders: [{
+    rules: [{
       test: /\.js$/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015']
-      }
+      use: [{
+        loader: 'babel-loader',
+        options: {
+          presets: ['es2015']
+        }
+      }],
     }, {
       test: /\.ts$/,
-      loader: 'ts'
+      use: [{
+        loader: 'ts-loader',
+        options: {
+          compilerOptions: {
+            declaration: false,
+            target: 'es5',
+            module: 'commonjs'
+          },
+          transpileOnly: true
+        }
+      }]
     }, {
-      test: /\.svg$/, loader: 'html?minimize=true'
+      test: /\.svg$/,
+      use: [{
+        loader: 'html-loader',
+        options: {
+          minimize: true
+        }
+      }]
     }]
   }
 }
