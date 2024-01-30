@@ -1,3 +1,5 @@
+import "quill/dist/quill.snow.css";
+
 import Quill from "quill/core";
 
 import Toolbar from "quill/modules/toolbar";
@@ -13,6 +15,10 @@ Quill.register({
   "formats/bold": Bold,
   "formats/italic": Italic,
   "formats/header": Header,
+});
+
+new Quill("#editor", {
+  theme: "snow",
 });
 
 export default Quill;

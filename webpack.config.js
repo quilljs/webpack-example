@@ -1,21 +1,11 @@
-var path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-  entry: "./app.ts",
-  mode: "development",
+  entry: "./src/app.ts",
   output: {
-    path: __dirname + "/dist",
+    path: path.resolve(__dirname, "./dist"),
     filename: "bundle.js",
-  },
-  resolve: {
-    alias: {
-      parchment: path.resolve(
-        __dirname,
-        "node_modules/parchment/src/parchment.ts"
-      ),
-      quill$: path.resolve(__dirname, "node_modules/quill/quill.js"),
-    },
-    extensions: [".js", ".ts", ".svg"],
   },
   module: {
     rules: [
@@ -24,14 +14,15 @@ module.exports = {
         use: [{ loader: "babel-loader" }],
       },
       {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: "html-loader",
-            options: { minimize: true },
-          },
-        ],
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      inject: "body",
+      template: "src/index.html",
+    }),
+  ],
 };
